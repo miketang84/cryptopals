@@ -1,5 +1,5 @@
-
-
+use base64;
+use hex;
 use hamming;
 
 
@@ -77,6 +77,8 @@ AB0cRSo+AwgKRSANExlJCBQaBAsANU9TKxFJL0dMHRwRTAtPBRwQMAAATQcB
 FlRlIkw5QwA2GggaR0YBBg5ZTgIcAAw3SVIaAQcVEU8QTyEaYy0fDE4ITlhI
 Jk8DCkkcC3hFMQIEC0EbAVIqCFZBO1IdBgZUVA4QTgUWSR4QJwwRTWM=";
 
+    let bytes_from_base64_decoded: Vec<u8> = base64::decode(&astr.replace("\n", "")).unwrap();
+    println!("{:?}", bytes_from_base64_decoded);
 
 
 }
