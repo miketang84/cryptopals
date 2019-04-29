@@ -12,6 +12,9 @@ hex = "0.3"
 name = "hex2base64"
 path = "src/hex2base64.rs"
 
+[[bin]]
+name = "fixedxor"
+path = "src/fixedxor.rs"
 
 
 
