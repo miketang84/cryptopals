@@ -16,5 +16,8 @@ path = "src/hex2base64.rs"
 name = "fixedxor"
 path = "src/fixedxor.rs"
 
+[[bin]]
+name = "sbxc"
+path = "src/sbxc.rs"
 
 
