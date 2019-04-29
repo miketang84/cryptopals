@@ -172,10 +172,20 @@ Jk8DCkkcC3hFMQIEC0EbAVIqCFZBO1IdBgZUVA4QTgUWSR4QJwwRTWM=";
 
     let mut cipher_byte_vec: Vec<u8> = vec![];
     for v in cipher_vec {
-        println!("{:?}", v as u8);
         cipher_byte_vec.push(v as u8);
     }
 
+    let equal_length_cipher_vec = helper::repeat_key(&cipher_byte_vec, bytes_from_base64_decoded.len());
+
+    let decrypted_bytes : Vec<u8> = bytes_from_base64_decoded.iter()
+        .zip(equal_length_cipher_vec.iter())
+        .map(|(d, k)| d ^ k)
+        .collect();
+
+
+    //println!("{}", hex::encode(&decrypted_bytes));
+    
+    println!("{:?}", String::from_utf8_lossy(&decrypted_bytes));
 
 
     
