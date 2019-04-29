@@ -1,3 +1,10 @@
 
-exercises on cryptopals.
+Exercises on cryptopals.
 
+Use
+
+```
+cargo run --bin c6
+```
+
+to solve [challenge 6](http://cryptopals.com/sets/1/challenges/6).
