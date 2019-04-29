@@ -1,7 +1,7 @@
 use base64;
 use hex;
 use hamming;
-
+use std::collections::HashMap;
 
 fn main() {
     // hamming distance is the counting-ones of the xor result of two byte slice
@@ -80,6 +80,60 @@ Jk8DCkkcC3hFMQIEC0EbAVIqCFZBO1IdBgZUVA4QTgUWSR4QJwwRTWM=";
     let bytes_from_base64_decoded: Vec<u8> = base64::decode(&astr.replace("\n", "")).unwrap();
     println!("{:?}", bytes_from_base64_decoded);
 
+    let mut avr_normalized_hd_hash: HashMap<i8, f64> = HashMap::new();
+    for keysize in 2..41i8 {
+        // create an iterator
+        let mut chunks = bytes_from_base64_decoded.chunks(keysize as usize);
+
+        let mut sum_normalized_hdistance = 0.0;
+        let mut count_times = 0;
+
+        loop {
+
+            match (chunks.next(), chunks.next()) {
+                (Some(leftpart), Some(rightpart)) => {
+                    if leftpart.len() != rightpart.len() {
+                        break;
+                    }
+
+                    let hdistance = hamming::distance(leftpart, rightpart);
+                    let normalized_hdistance = hdistance as f64 / keysize as f64;
+
+                    sum_normalized_hdistance += normalized_hdistance;
+                    count_times += 1;
+
+                },
+                _ => {
+                    // jump out of this loop
+                    break;
+                }
+            }
+        }
+
+        if count_times > 0 {
+            let average_normalized_hdistance = sum_normalized_hdistance / count_times as f64;
+
+            avr_normalized_hd_hash.insert(keysize, average_normalized_hdistance);
+
+        }
+        else {
+            println!("keysize {} is not fit.", keysize);
+        }
+
+    }
+
+    println!("hash {:?}", avr_normalized_hd_hash);
+
+    let mut min_keysize = 0;
+    let mut min_distance = 10000.0;
+    for (k,v) in avr_normalized_hd_hash {
+        if v < min_distance  {
+            min_distance = v;
+            min_keysize = k;
+        }
+    }
+
+    println!("min {}, {}", min_keysize, min_distance);
 
 }
 
