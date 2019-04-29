@@ -7,6 +7,7 @@ edition = "2018"
 [dependencies]
 base64 = "0.10"
 hex = "0.3"
+hamming = "0.1"
 
 [[bin]]
 name = "hex2base64"
@@ -20,4 +21,8 @@ path = "src/fixedxor.rs"
 name = "sbxc"
 path = "src/sbxc.rs"
 
+#
+[[bin]]
+name = "c6"
+path = "src/break-repeating-key-xor.rs"
 
