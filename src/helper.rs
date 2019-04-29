@@ -42,32 +42,18 @@ pub fn find_cipher(bytes: &Vec<u8>) -> char {
             .map(|d| d ^ cipher)
             .collect();
 
-        //println!("{}", hex::encode(decrypted_bytes));
-        //println!("{:?} {}", char::from_u32(cipher as u32), String::from_utf8_lossy(&decrypted_bytes));
-        
         let scores = decrypted_bytes.iter().fold(0.0, |acc, x| {
             let thischar = char::from_u32(*x as u32).unwrap();
             let score = cha_freqs.get(&thischar).unwrap_or(&0.0);
-            //let score = if let Some(score) = cha_freqs.get(&thischar) {
-            //    *score
-            //}
-            //else {
-            //    0.0
-            //};
             acc + score
         });
 
-        //println!("{}", scores);
         if scores > max_score {
             target_msg = decrypted_bytes;
             target_cipher = cipher;
             max_score = scores;
         }
     }
-
-
-    //println!("cipher: {}, msg: {}", char::from_u32(target_cipher as u32).unwrap(), String::from_utf8_lossy(&target_msg));
-
 
     char::from_u32(target_cipher as u32).unwrap()
 
