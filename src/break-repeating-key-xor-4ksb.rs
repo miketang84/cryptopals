@@ -3,11 +3,6 @@ use hex;
 use hamming;
 use std::collections::HashMap;
 
-mod helper;
-
-
-
-
 fn main() {
     // hamming distance is the counting-ones of the xor result of two byte slice
     let str1 = "this is a test";
@@ -95,12 +90,8 @@ Jk8DCkkcC3hFMQIEC0EbAVIqCFZBO1IdBgZUVA4QTgUWSR4QJwwRTWM=";
 
         loop {
 
-            match (chunks.next(), chunks.next()) {
-                (Some(leftpart), Some(rightpart)) => {
-                    if leftpart.len() != rightpart.len() {
-                        break;
-                    }
-
+            match (chunks.next(), chunks.next(), chunks.next(), chunks.next()) {
+                (Some(firstpart), Some(secondpart), Some(thirdpart), Some(forthpart)) => {
                     let hdistance = hamming::distance(leftpart, rightpart);
                     let normalized_hdistance = hdistance as f64 / keysize as f64;
 
@@ -145,40 +136,7 @@ Jk8DCkkcC3hFMQIEC0EbAVIqCFZBO1IdBgZUVA4QTgUWSR4QJwwRTWM=";
 
     println!(" values * 10000: {:?}", values);
 
-    // four KEYSIZE block version
 
-    let segs = bytes_from_base64_decoded.len() / min_keysize as usize;
-
-    let mut block_vec: Vec<Vec<u8>> = vec![];
-
-    for i in 0..min_keysize {
-        let mut inner_vec = vec![];
-        for seg_index in 0..segs {
-           inner_vec.push(bytes_from_base64_decoded[seg_index*min_keysize as usize + i as usize]);
-        }
-        block_vec.push(inner_vec);
-    }
-     
-    println!("{:?}", block_vec); 
-
-    let mut cipher_vec: Vec<char> = vec![];
-    for v in block_vec {
-        let cipher = helper::find_cipher(&v);
-        println!("{:?}", cipher);
-        cipher_vec.push(cipher);
-    }
-
-    println!("{:?}", cipher_vec); 
-
-    let mut cipher_byte_vec: Vec<u8> = vec![];
-    for v in cipher_vec {
-        println!("{:?}", v as u8);
-        cipher_byte_vec.push(v as u8);
-    }
-
-
-
-    
 
 }
 
